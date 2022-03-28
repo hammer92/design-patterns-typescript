@@ -15,7 +15,7 @@ const COIN = {
 export interface Subject {
   attach(observer: Observer): void;
   detach(observer: Observer): void;
-  notify(): void;
+  notify(event: string, coin: ICoin, coinType: string, monto: number): void;
 }
 
 class ConcreteSubject implements Subject {
@@ -59,29 +59,30 @@ class ConcreteSubject implements Subject {
   /**
    * Activar una actualización en cada suscriptor.
    */
-  public notify(): void {
-    this._log.info("Subject: Notifying observers...");
+  public notify(
+    event: string,
+    coin: ICoin,
+    coinType: string,
+    monto: number
+  ): void {
+    this._log.info(
+      "Subject: Notifying observers...",
+      event,
+      coin.constructor.name,
+      coinType,
+      monto
+    );
     for (const observer of this.observers) {
-      // observer.update(this);
+      observer[event](coin, coinType, monto);
     }
   }
 
   public someBusinessLogic(request: Request): void {
     this._log.warn(request);
-    const coin: ICoin = COIN[request.credit];
-
-    this._log.warn("Saldo actual: ", coin.balance());
-    if (coin.saldo < request.monto) {
-      this._log.error("Saldo insuficiente");
-      return;
-    }
+    const coinCredit: ICoin = COIN[request.credit];
+    const coinDebit: ICoin = COIN[request.debit];
+    this.notify("credit", coinCredit, request.credit, request.monto);
+    this.notify("debit", coinDebit, request.credit, request.monto);
   }
-  /* public someBusinessLogic(): void {
-    this._log.info("\nSubject: I'm doing something important.");
-    this.state = Math.floor(Math.random() * (10 + 1));
-
-    this._log.info(`Subject: My state has just changed to: ${this.state}`);
-    this.notify();
-  }*/
 }
 export default new ConcreteSubject();

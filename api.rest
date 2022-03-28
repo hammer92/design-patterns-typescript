@@ -29,7 +29,7 @@ POST http://localhost:3000/observer HTTP/1.1
 content-type: application/json
 
 {
-	"credit": "EUR", 
+	"credit": "USD", 
 	"debit": "COP", 
-  "monto": 100000
+  "monto": 12.5
 }

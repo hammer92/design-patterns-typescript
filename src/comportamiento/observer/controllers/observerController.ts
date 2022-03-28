@@ -7,6 +7,9 @@ import { ProxyLogger } from "../utils/loggerProxy";
 
 import subject from "../utils/subject";
 
+import CoinUSDModel from "../models/Coin/USDModel";
+import CoinEURModel from "../models/Coin/EURModel";
+import CoinCopModel from "../models/Coin/COPModel";
 export class ObserverController {
   public handler(req: Request, res: Response) {
     const log = new ProxyLogger({ name: ObserverController.name });
@@ -24,9 +27,20 @@ export class ObserverController {
       return res.status(400).json(requestModel);
     }
 
+    if (requestModel.debit === requestModel.credit) {
+      log.error("Débito y Crédito no pueden ser lo mismo");
+      return res
+        .status(400)
+        .json({ message: "Débito y Crédito no pueden ser lo mismo" });
+    }
+
     subject.someBusinessLogic(requestModel);
 
-    res.send("requestModel");
+    res.send({
+      SaldoCoinCOP: CoinCopModel.balance(),
+      SaldoCoinUSD: CoinUSDModel.balance(),
+      SaldoCoinEUR: CoinEURModel.balance(),
+    });
   }
 }
 
