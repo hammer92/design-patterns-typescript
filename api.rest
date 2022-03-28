@@ -1,0 +1,35 @@
+
+### Patrón Singleton
+GET http://localhost:3000/singleton HTTP/1.1
+
+### Patrón Builder
+POST http://localhost:3000/builder HTTP/1.1
+content-type: application/json
+
+{
+	"name": "Jamer Pinto",
+	"email": "jamer.pinto@pragma.com.co"
+}
+
+### Patrón Proxy
+GET http://localhost:3000/proxy HTTP/1.1
+
+### Patrón Adapter
+POST http://localhost:3000/adapter HTTP/1.1
+content-type: application/json
+
+{
+	"coin": "EUR",
+	"coinType": "COP",
+  "monto": 100000
+}
+
+### Patrón Observer
+POST http://localhost:3000/observer HTTP/1.1
+content-type: application/json
+
+{
+	"credit": "EUR", 
+	"debit": "COP", 
+  "monto": 100000
+}
